@@ -54,3 +54,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 - The video must have captions/subtitles available — auto-generated captions work fine
 - Prompt caching is enabled, so summarizing the same video twice is significantly cheaper
+
+## Screenshot
+
+<img width="787" height="969" alt="image" src="https://github.com/user-attachments/assets/87729d02-c55b-4d2c-bad9-17d82f2ba9f6" />
+
