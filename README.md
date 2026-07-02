@@ -34,7 +34,13 @@ npm install
 
 ### 3. Add your Anthropic API key
 
-Create a `.env.local` file in the project root:
+Copy the provided template to create your `.env.local` file:
+
+```bash
+cp .env.example .env.local
+```
+
+Then add your key:
 
 ```
 ANTHROPIC_API_KEY=your_api_key_here
