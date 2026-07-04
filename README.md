@@ -1,14 +1,14 @@
 # YouTube Summarizer
 
-A Next.js web app that generates AI-powered summaries of YouTube videos. Paste a YouTube URL (or the transcript itself) and get a structured summary — overview, key points, and takeaways — streamed in real time.
+A Next.js web app that generates AI-powered summaries of YouTube videos. Paste a YouTube URL (or the transcript itself) and get a structured summary: overview, key points, and takeaways, streamed in real time.
 
 ## Try it live
 
-No need to run it locally to try it out — just go to **[youtube-summarizer-sooty-mu.vercel.app](https://youtube-summarizer-sooty-mu.vercel.app/)** and bring your own Anthropic API key.
+Go to **[youtube-summarizer-sooty-mu.vercel.app](https://youtube-summarizer-sooty-mu.vercel.app/)** and bring your own Anthropic API key.
 
 ## Demo
 
-<!-- TODO: paste the demo .mp4 (or its GitHub asset link) here -->
+Uploading youtube-summarizer-demo.mp4…
 
 ## How it works
 
@@ -21,7 +21,7 @@ No need to run it locally to try it out — just go to **[youtube-summarizer-soo
 
 - [Next.js 16](https://nextjs.org) (App Router, TypeScript)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Anthropic SDK](https://github.com/anthropic/anthropic-sdk-typescript) — Claude Opus 4.7 with adaptive thinking + streaming
+- [Anthropic SDK](https://github.com/anthropic/anthropic-sdk-typescript) - Claude Opus 4.7 with adaptive thinking + streaming
 - [youtube-transcript](https://www.npmjs.com/package/youtube-transcript)
 - [react-markdown](https://github.com/remarkjs/react-markdown)
 
@@ -48,11 +48,11 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser, then paste in your own Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com)) — it's used only for that request and is never stored.
+Open [http://localhost:3000](http://localhost:3000) in your browser, then paste in your own Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com)) - it's used only for that request and is never stored.
 
 ## Notes
 
-- The video must have captions/subtitles available — auto-generated captions work fine
+- The video must have captions/subtitles available - auto-generated captions work fine
 - If the URL fetch fails (missing captions, or YouTube rate-limiting), paste the transcript directly instead
 - Prompt caching is enabled, so summarizing the same video twice is significantly cheaper
 
