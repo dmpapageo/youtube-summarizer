@@ -25,9 +25,7 @@ https://github.com/user-attachments/assets/b15f3611-d44f-4c01-8144-fd8cc8765971
 - [youtube-transcript](https://www.npmjs.com/package/youtube-transcript)
 - [react-markdown](https://github.com/remarkjs/react-markdown)
 
-## Getting started
-
-Prefer to run it yourself instead of using the [live demo](#try-it-live)? Here's how:
+## Running Locally
 
 ### 1. Clone the repo
 
