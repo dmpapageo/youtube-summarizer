@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [apiKey, setApiKey] = useState("");
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -13,6 +14,10 @@ export default function Home() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!url.trim()) return;
+    if (!apiKey.trim()) {
+      setError("Please enter your Anthropic API key.");
+      return;
+    }
 
     setLoading(true);
     setSummary("");
@@ -24,7 +29,7 @@ export default function Home() {
       const res = await fetch("/api/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, apiKey }),
         signal: abortRef.current.signal,
       });
 
@@ -64,31 +69,46 @@ export default function Home() {
           <p className="text-gray-400">Paste a YouTube URL and get an AI-powered summary instantly.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://www.youtube.com/watch?v=..."
-            className="flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
-          />
-          {loading ? (
-            <button
-              type="button"
-              onClick={handleStop}
-              className="rounded-lg bg-gray-700 hover:bg-gray-600 px-5 py-3 text-sm font-medium transition-colors"
-            >
-              Stop
-            </button>
-          ) : (
-            <button
-              type="submit"
-              disabled={!url.trim()}
-              className="rounded-lg bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-3 text-sm font-medium transition-colors"
-            >
-              Summarize
-            </button>
-          )}
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder="Your Anthropic API key (sk-ant-...)"
+              className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Your key is sent only to summarize this request and is never stored or logged.
+            </p>
+          </div>
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+            {loading ? (
+              <button
+                type="button"
+                onClick={handleStop}
+                className="rounded-lg bg-gray-700 hover:bg-gray-600 px-5 py-3 text-sm font-medium transition-colors"
+              >
+                Stop
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={!url.trim() || !apiKey.trim()}
+                className="rounded-lg bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-3 text-sm font-medium transition-colors"
+              >
+                Summarize
+              </button>
+            )}
+          </div>
         </form>
 
         {error && (

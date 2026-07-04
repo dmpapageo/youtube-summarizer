@@ -32,29 +32,13 @@ cd youtube-summarizer
 npm install
 ```
 
-### 3. Add your Anthropic API key
-
-Copy the provided template to create your `.env.local` file:
-
-```bash
-cp .env.example .env.local
-```
-
-Then add your key:
-
-```
-ANTHROPIC_API_KEY=your_api_key_here
-```
-
-Get a key at [console.anthropic.com](https://console.anthropic.com).
-
-### 4. Run the dev server
+### 3. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser, then paste in your own Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com)) — it's used only for that request and is never stored.
 
 ## Notes
 
