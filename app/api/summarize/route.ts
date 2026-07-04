@@ -15,7 +15,7 @@ function extractVideoId(url: string): string | null {
 }
 
 export async function POST(req: NextRequest) {
-  const { url, apiKey } = await req.json();
+  const { url, apiKey, transcript: pastedTranscript } = await req.json();
 
   // Bring-your-own-key: the user's key is required and used only for this request.
   if (!apiKey || typeof apiKey !== "string" || !apiKey.trim()) {
@@ -25,23 +25,34 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const videoId = extractVideoId(url);
-  if (!videoId) {
-    return new Response(JSON.stringify({ error: "Invalid YouTube URL" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (!apiKey.startsWith("sk-ant-")) {
+    return new Response(
+      JSON.stringify({ error: "Invalid API key format. Please check your Anthropic API key." }),
+      { status: 401, headers: { "Content-Type": "application/json" } }
+    );
   }
 
   let transcript: string;
-  try {
-    const segments = await YoutubeTranscript.fetchTranscript(videoId);
-    transcript = segments.map((s) => s.text).join(" ");
-  } catch {
-    return new Response(
-      JSON.stringify({ error: "Could not fetch transcript. The video may not have captions." }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
-    );
+  if (typeof pastedTranscript === "string" && pastedTranscript.trim()) {
+    transcript = pastedTranscript;
+  } else {
+    const videoId = extractVideoId(url);
+    if (!videoId) {
+      return new Response(JSON.stringify({ error: "Invalid YouTube URL" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    try {
+      const segments = await YoutubeTranscript.fetchTranscript(videoId);
+      transcript = segments.map((s) => s.text).join(" ");
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Could not fetch transcript. The video may not have captions." }),
+        { status: 422, headers: { "Content-Type": "application/json" } }
+      );
+    }
   }
 
   // Instantiate the client with the USER's key, never a server key.

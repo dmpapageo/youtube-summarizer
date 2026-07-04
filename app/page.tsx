@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 export default function Home() {
   const [url, setUrl] = useState("");
   const [apiKey, setApiKey] = useState("");
+  const [transcript, setTranscript] = useState("");
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -13,7 +14,7 @@ export default function Home() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!url.trim()) return;
+    if (!url.trim() && !transcript.trim()) return;
     if (!apiKey.trim()) {
       setError("Please enter your Anthropic API key.");
       return;
@@ -29,7 +30,7 @@ export default function Home() {
       const res = await fetch("/api/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, apiKey }),
+        body: JSON.stringify({ url, apiKey, transcript }),
         signal: abortRef.current.signal,
       });
 
@@ -102,12 +103,22 @@ export default function Home() {
             ) : (
               <button
                 type="submit"
-                disabled={!url.trim() || !apiKey.trim()}
+                disabled={!apiKey.trim() || (!url.trim() && !transcript.trim())}
                 className="rounded-lg bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-3 text-sm font-medium transition-colors"
               >
                 Summarize
               </button>
             )}
+          </div>
+
+          <div>
+            <textarea
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
+              placeholder="Optional: paste the transcript directly if the URL fails"
+              rows={4}
+              className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
           </div>
         </form>
 
