@@ -8,7 +8,7 @@ Go to **[youtube-summarizer-sooty-mu.vercel.app](https://youtube-summarizer-soot
 
 ## Demo
 
-Uploading youtube-summarizer-demo.mp4…
+https://github.com/user-attachments/assets/b15f3611-d44f-4c01-8144-fd8cc8765971
 
 ## How it works
 
