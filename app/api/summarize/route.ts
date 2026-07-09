@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       max_tokens: 2048,
       thinking: { type: "adaptive" },
       system:
-        "You are an expert at summarizing YouTube video transcripts. Provide clear, structured summaries with key points and takeaways.",
+        "You are an expert at summarizing YouTube video transcripts. Provide clear, structured summaries with key points and takeaways. Base the summary strictly on the transcript: do not add claims, comparisons, or conclusions that are not stated in or clearly supported by it, and do not embellish. Reasonable inferences that follow directly from the transcript are fine; unsupported additions are not.",
       messages: [
         {
           role: "user",
