@@ -1,18 +1,7 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { YoutubeTranscript } from "youtube-transcript";
-
-function extractVideoId(url: string): string | null {
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-    /^([a-zA-Z0-9_-]{11})$/,
-  ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match) return match[1];
-  }
-  return null;
-}
+import { extractVideoId, MAX_TRANSCRIPT_CHARS, transcriptTooLong } from "../../lib/transcript.ts";
 
 export async function POST(req: NextRequest) {
   const { url, apiKey, transcript: pastedTranscript } = await req.json();
@@ -53,6 +42,15 @@ export async function POST(req: NextRequest) {
         { status: 422, headers: { "Content-Type": "application/json" } }
       );
     }
+  }
+
+  if (transcriptTooLong(transcript)) {
+    return new Response(
+      JSON.stringify({
+        error: `Transcript is too long (${transcript.length.toLocaleString()} characters; the limit is ${MAX_TRANSCRIPT_CHARS.toLocaleString()}). Try a shorter video or paste a section of the transcript.`,
+      }),
+      { status: 413, headers: { "Content-Type": "application/json" } }
+    );
   }
 
   // Instantiate the client with the USER's key, never a server key.
